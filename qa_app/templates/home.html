@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Ask a Question</h5>
+                    <form method="post" action="{% url 'ask_question' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <textarea class="form-control" name="question" rows="3" required placeholder="Type your question here..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Ask</button>
+                    </form>
+                </div>
+            </div>
+
+            <h4>Previous Questions</h4>
+            {% for question in questions %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Asked on {{ question.created_at }}</h6>
+                        <p class="card-text"><strong>Q: </strong>{{ question.question_text }}</p>
+                        <p class="card-text"><strong>A: </strong>{{ question.answer }}</p>
+                    </div>
+                </div>
+            {% empty %}
+                <p class="text-muted">No questions yet. Start asking!</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
